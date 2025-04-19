@@ -1,0 +1,9 @@
+duckdb
+polars
+numpy
+scipy
+matplotlib
+jupyter
+sqlmesh[duckdb]
+plotly
+pyarrow

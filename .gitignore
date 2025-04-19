@@ -1,0 +1,71 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+
+# SQLMesh cache and artifacts
+.sqlmesh/
+.sqlmesh_cache/
+
+# Local data and secrets
+*.db
+*.sqlite
+*.sqlite3
+*.log
+*.env
+.env.*
+secrets.*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Test and coverage outputs
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+pytest_cache/
+
+# VSCode
+.vscode/
+
+# Misc
+*.bak
+*.swp
+*.tmp
+
+# Ignore seeds if large or sensitive
+seeds/*.csv
+!seeds/seed_data.csv
