@@ -1,19 +1,96 @@
-test_example_full_model:
-  model: sqlmesh_example.full_model
+test_curated_derived_metrics:
+  model: main.curated_risk_data
   inputs:
-    sqlmesh_example.incremental_model:
+    main.transformed_risk_data:
       rows:
-      - id: 1
-        item_id: 1
-      - id: 2
-        item_id: 1
-      - id: 3
-        item_id: 2
+        - transaction_id: 999
+          event_date: "2025-04-20"
+          scenario: "Integration"
+          asset_class: "Equity"
+          sub_asset_class: "Large Cap"
+          variable_x: 1.0
+          variable_y: 2.0
+          underlying_asset_price: 100.0
+          option_strike_price: 95.0
+          risk_free_rate: 0.02
+          time_to_maturity: 1.0
+          asset_volatility: 0.2
+          return_asset1: 0.05
+          return_asset2: 0.04
+          return_asset3: 0.03
+          weight_asset1: 0.5
+          weight_asset2: 0.3
+          weight_asset3: 0.2
+          portfolio_return: 0.04
+          cash_flow_period1: 100.0
+          cash_flow_period2: 100.0
+          cash_flow_period3: 1100.0
+          bond_yield: 0.04
+          cashflow_timeperiod1: 1.0
+          cashflow_timeperiod2: 2.0
+          cashflow_timeperiod3: 3.0
+          probability_default: 0.02
+          loss_given_default: 0.5
+          exposure_at_default: 1000.0
+          bid_price: 99.0
+          ask_price: 101.0
+          base_asset_value: 10000.0
+          stressed_asset_value: 9500.0
+          stress_exposure: 500.0
+          gross_income: 200.0
+          asset_risk_weight: 0.08
+          additional_liquidity_risk: 0.01
+          time_series_lag_value: 98.0
+          current_time_series_value: 100.0
   outputs:
     query:
       rows:
-      - item_id: 1
-        num_orders: 2
-      - item_id: 2
-        num_orders: 1
-  
+        - transaction_id: 999
+          event_date: "2025-04-20"
+          scenario: "Integration"
+          asset_class: "Equity"
+          sub_asset_class: "Large Cap"
+          variable_x: 1.0
+          variable_y: 2.0
+          underlying_asset_price: 100.0
+          option_strike_price: 95.0
+          risk_free_rate: 0.02
+          time_to_maturity: 1.0
+          asset_volatility: 0.2
+          return_asset1: 0.05
+          return_asset2: 0.04
+          return_asset3: 0.03
+          weight_asset1: 0.5
+          weight_asset2: 0.3
+          weight_asset3: 0.2
+          portfolio_return: 0.04
+          cash_flow_period1: 100.0
+          cash_flow_period2: 100.0
+          cash_flow_period3: 1100.0
+          bond_yield: 0.04
+          cashflow_timeperiod1: 1.0
+          cashflow_timeperiod2: 2.0
+          cashflow_timeperiod3: 3.0
+          probability_default: 0.02
+          loss_given_default: 0.5
+          exposure_at_default: 1000.0
+          bid_price: 99.0
+          ask_price: 101.0
+          base_asset_value: 10000.0
+          stressed_asset_value: 9500.0
+          stress_exposure: 500.0
+          gross_income: 200.0
+          asset_risk_weight: 0.08
+          additional_liquidity_risk: 0.01
+          time_series_lag_value: 98.0
+          current_time_series_value: 100.0
+          log_return: 0.020202707317519466
+          arithmetic_return: 0.02040816326530612
+          portfolio_expected_return: 0.043
+          portfolio_variance_approx: 7.000000000000001e-05
+          expected_loss: 10.0
+          bid_ask_spread_pct: 0.02
+          op_risk_basic_indicator_capital: 30.0
+          scenario_loss: 500.0
+          risk_weighted_asset: 80.0
+          stress_delta: 500.0

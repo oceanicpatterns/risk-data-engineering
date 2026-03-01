@@ -13,6 +13,8 @@ def random_date(start, end):
     """Generate a random date between start and end"""
     delta = end - start
     int_delta = delta.days
+    if int_delta <= 0:
+        return start
     random_day = random.randrange(int_delta)
     return start + timedelta(days=random_day)
 
@@ -65,5 +67,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Bulk seed data generator')
     parser.add_argument('--count', type=int, required=True, help='Number of rows to append')
     args = parser.parse_args()
-    csv_path = os.path.join(os.path.dirname(__file__), 'seed_data.csv')
+    csv_path = os.path.abspath(
+        os.path.join(os.path.dirname(__file__), '..', 'seeds', 'seed_data.csv')
+    )
     main(csv_path, args.count)

@@ -1,6 +1,34 @@
-# Financial Risk & Data Engineering
+# risk-data-engineering
 
 ---
+
+## Repository Profile
+
+- Maintainer profile: **OceanicPatterns**
+- Canonical repository name: **risk-data-engineering**
+- Purpose: end-to-end risk analytics pipeline with SQLMesh models, Python analytics scripts, and data-quality audits/tests.
+- Design: layered data modeling (`raw` -> `staging` -> `transformed` -> `curated`) plus reporting and forecasting scripts.
+
+## Quick Start
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+sqlmesh run --verbose
+```
+
+## Project Layout
+
+```text
+risk-data-engineering/
+  models/                  # SQLMesh models (raw/staging/transformed/curated)
+  audits/                  # SQL audits applied to models
+  tests/                   # SQLMesh unit tests
+  src/                     # Python analytics/reporting scripts
+  seeds/seed_data.csv      # Seed input dataset
+  config.yaml              # SQLMesh + DuckDB config
+```
 
 ## Key Formulas
 
@@ -128,79 +156,68 @@ Below are the most common SQLMesh commands and what they do:
 
 ---
 
-## SQLMesh Project Initialization Steps
-
-If you encounter errors about missing SQL dialect or project config, follow these steps:
-
-1. **Check your `config.yaml` file:**
-   - It should match your actual `config.yaml`, for example:
-     ```yaml
-     gateways:
-       duckdb:
-         connection:
-           type: duckdb
-           database: db.db
-
-     default_gateway: duckdb
-
-     model_defaults:
-       dialect: duckdb
-       start: '2025-04-16'
-     ```
-   - Ensure indentation uses spaces (no tabs) and the file ends with a newline.
-
-2. **Initialize SQLMesh:**
-   - Run:
-     ```sh
-     sqlmesh init
-     ```
-   - If you see an error about missing SQL dialect, try:
-     ```sh
-     sqlmesh init duckdb
-     ```
-   - This explicitly sets the dialect for initialization and can bypass config parsing issues.
-
-3. **Run your project:**
-   - Use:
-     ```sh
-     sqlmesh run --verbose
-     ```
-
-**Tip:** Once your config is correct, you should not need to specify the dialect every time.
-
----
-
 ## Requirements
 
 - Python 3.9+
 
 ---
 
-## Usage
+## Development Workflow
 
-1. Clone the repository:
+1. Clone and enter the repository:
    ```bash
-   git clone <repo-url>
-   cd risk_management
+   git clone <your-repo-url>/risk-data-engineering.git
+   cd risk-data-engineering
    ```
-2. (Recommended) Create and activate a virtual environment:
+2. Create and activate a virtual environment:
    ```bash
-   python3 -m venv venv
-   source venv/bin/activate
+   python3 -m venv .venv
+   source .venv/bin/activate
    ```
 3. Install requirements:
    ```bash
    pip install -r requirements.txt
    ```
+4. Run models:
+   ```bash
+   sqlmesh run --verbose
+   ```
+5. Run tests:
+   ```bash
+   sqlmesh test
+   ```
+6. Optional analytics scripts:
+   ```bash
+   python src/formulas.py
+   python src/advanced_risk_analytics.py
+   python src/reporting_polars.py
+   python src/reporting_polars_charts.py
+   ```
+
+## Troubleshooting
+
+1. Verify `config.yaml` points to DuckDB:
+   ```yaml
+   gateways:
+     duckdb:
+       connection:
+         type: duckdb
+         database: db.db
+   default_gateway: duckdb
+   model_defaults:
+     dialect: duckdb
+   ```
+2. If `sqlmesh` is not found, ensure your virtual environment is active and dependencies are installed.
+3. If date parsing fails in custom data, ensure `event_date` values use either `DD/MM/YYYY` or `YYYY-MM-DD`.
 
 ---
 
 ## About
 
-This project is designed for students in risk management, finance, and data engineering. It provides a quick reference to formulas and concepts used in quantitative finance and risk analysis.
+`risk-data-engineering` is designed for students and practitioners in risk, finance, and modern data engineering. It provides a reproducible analytics pipeline with auditable models, data-quality checks, and reporting-oriented risk metrics.
 
 ---
 
 ## License
 
-MIT License
+MIT License (see [LICENSE](LICENSE)).

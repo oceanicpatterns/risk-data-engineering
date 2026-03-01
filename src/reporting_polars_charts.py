@@ -6,35 +6,30 @@ from utils import setup_logging, get_connection, load_curated
 setup_logging()
 logger = logging.getLogger(__name__)
 
+def _group_sum(df, group_col: str, value_col: str, out_col: str):
+    """Compat helper for Polars group-by APIs across versions."""
+    if hasattr(df, "group_by"):
+        return df.group_by(group_col).agg(pl.col(value_col).sum().alias(out_col))
+    return df.groupby(group_col).agg([pl.col(value_col).sum().alias(out_col)])
+
 def plot_exposure_by_asset_class(df):
     if "asset_class" in df.columns and "exposure_at_default" in df.columns:
-        report = (
-            df.groupby_dynamic(index_column=None, by=["asset_class"]).agg([
-                pl.col("exposure_at_default").sum().alias("Total_EAD")
-            ])
-            if hasattr(df, 'groupby_dynamic') else
-            df.groupby("asset_class").agg([
-                pl.col("exposure_at_default").sum().alias("Total_EAD")
-            ])
-        ) if hasattr(df, 'groupby') else None
-        if report is not None:
-            fig = px.bar(report.to_pandas(), x="asset_class", y="Total_EAD", title="Exposure at Default by Asset Class")
-            fig.show()
+        report = _group_sum(df, "asset_class", "exposure_at_default", "Total_EAD")
+        fig = px.bar(
+            report.to_pandas(),
+            x="asset_class",
+            y="Total_EAD",
+            title="Exposure at Default by Asset Class",
+        )
+        fig.show()
 
 def plot_time_series_exposure(df):
     if "event_date" in df.columns and "exposure_at_default" in df.columns:
-        report = (
-            df.groupby_dynamic(index_column=None, by=["event_date"]).agg([
-                pl.col("exposure_at_default").sum().alias("Total_EAD")
-            ])
-            if hasattr(df, 'groupby_dynamic') else
-            df.groupby("event_date").agg([
-                pl.col("exposure_at_default").sum().alias("Total_EAD")
-            ])
-        ) if hasattr(df, 'groupby') else None
-        if report is not None:
-            fig = px.line(report.to_pandas(), x="event_date", y="Total_EAD", title="Exposure Over Time")
-            fig.show()
+        report = _group_sum(df, "event_date", "exposure_at_default", "Total_EAD")
+        if "event_date" in report.columns:
+            report = report.sort("event_date")
+        fig = px.line(report.to_pandas(), x="event_date", y="Total_EAD", title="Exposure Over Time")
+        fig.show()
 
 def plot_high_risk_transactions(df):
     if set(["probability_default", "exposure_at_default"]).issubset(df.columns):

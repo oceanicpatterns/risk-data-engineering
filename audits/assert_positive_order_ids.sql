@@ -1,9 +1,8 @@
 AUDIT (
-  name assert_positive_order_ids,
+  name assert_positive_transaction_id
 );
 
 SELECT *
 FROM @this_model
 WHERE
-  item_id < 0
-  
+  transaction_id < 0;

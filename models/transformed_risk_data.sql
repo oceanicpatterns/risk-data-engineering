@@ -12,7 +12,10 @@ MODEL (
 
 SELECT
     Transaction_ID::INTEGER         AS transaction_id,
-    STRPTIME(event_date, '%d/%m/%Y') AS event_date,
+    COALESCE(
+        TRY_STRPTIME(event_date, '%d/%m/%Y'),
+        TRY_STRPTIME(event_date, '%Y-%m-%d')
+    ) AS event_date,
     Scenario, 
     Asset_Class, 
     Sub_Asset_Class, 
